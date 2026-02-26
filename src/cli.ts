@@ -3,6 +3,8 @@ import { Command } from "commander";
 import { join } from "node:path";
 import { homedir } from "node:os";
 import { resolveToken, readConfig, writeConfig } from "./config.js";
+import { MissiveClient, MissiveApiError } from "./client.js";
+import { registerConversations } from "./commands/conversations.js";
 
 const program = new Command();
 
@@ -41,4 +43,25 @@ config
     );
   });
 
-program.parse();
+// Lazy client initialization
+const getClient = (): MissiveClient => {
+  const token = resolveToken(program.opts().token);
+  return new MissiveClient(token);
+};
+
+// Register command groups
+registerConversations(program, getClient);
+
+async function main() {
+  try {
+    await program.parseAsync();
+  } catch (err) {
+    if (err instanceof MissiveApiError) {
+      console.error(`Missive API error: ${err.message}`);
+      process.exit(1);
+    }
+    throw err;
+  }
+}
+
+main();
