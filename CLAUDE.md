@@ -60,6 +60,7 @@ src/
 - **Conversations list requires a mailbox filter.** The API returns 400 `"You need to paginate at least one mailbox"` if you don't specify one. Our client defaults to `inbox` when no label/team filter is given. Valid mailbox values: `inbox`, `all`, `assigned`, `closed`, `snoozed`, `flagged`, `trashed`, `drafts`.
 - **Minimum limit is 2.** Passing `--limit 1` returns 400 `"min 'limit' value is 2"`. Max is 50 for conversations, 10 for messages/drafts.
 - **Get conversation returns an array.** `GET /conversations/:id` wraps the result in `{ conversations: [...] }` (array), not a single object, despite being a single-resource fetch.
+- **Draft create requires `from_field`.** The API returns 400 `"'from_field' does not match an available sender"` if you omit it or use an email not configured as a sender in Missive. Use `--from <email>` with a valid sender address.
 - **Build before running globally.** After editing source, `npm run build` is required before the `missive` global command reflects changes. Use `npx tsx src/cli.ts` during dev to skip the build step.
 
 ## Adding New Commands

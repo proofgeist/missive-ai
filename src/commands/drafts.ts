@@ -18,6 +18,7 @@ export function registerDrafts(
     .requiredOption("--body <body>", "Email body (text or HTML)")
     .option("--cc <emails...>", "CC email addresses")
     .option("--bcc <emails...>", "BCC email addresses")
+    .option("--from <email>", "Sender email address (must match a Missive sender)")
     .option("--conversation-id <id>", "Reply in existing conversation")
     .option("--send", "Send immediately instead of saving as draft")
     .action(async (opts) => {
@@ -30,6 +31,7 @@ export function registerDrafts(
         body: opts.body,
         cc: opts.cc ? toAddr(opts.cc) : undefined,
         bcc: opts.bcc ? toAddr(opts.bcc) : undefined,
+        from_field: opts.from ? { name: "", address: opts.from } : undefined,
         conversation: opts.conversationId,
         send: opts.send || false,
       });
