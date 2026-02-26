@@ -7,6 +7,8 @@ import { MissiveClient, MissiveApiError } from "./client.js";
 import { registerConversations } from "./commands/conversations.js";
 import { registerDrafts } from "./commands/drafts.js";
 import { registerMessages } from "./commands/messages.js";
+import { registerContacts } from "./commands/contacts.js";
+import { registerContactBooks } from "./commands/contact-books.js";
 
 const program = new Command();
 
@@ -55,6 +57,8 @@ const getClient = (): MissiveClient => {
 registerConversations(program, getClient);
 registerDrafts(program, getClient);
 registerMessages(program, getClient);
+registerContacts(program, getClient);
+registerContactBooks(program, getClient);
 
 async function main() {
   try {
