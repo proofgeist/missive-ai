@@ -61,6 +61,7 @@ src/
 - **Minimum limit is 2.** Passing `--limit 1` returns 400 `"min 'limit' value is 2"`. Max is 50 for conversations, 10 for messages/drafts.
 - **Get conversation returns an array.** `GET /conversations/:id` wraps the result in `{ conversations: [...] }` (array), not a single object, despite being a single-resource fetch.
 - **Draft create requires `from_field`.** The API returns 400 `"'from_field' does not match an available sender"` if you omit it or use an email not configured as a sender in Missive. Use `--from <email>` with a valid sender address.
+- **Conversation state changes use the drafts endpoint.** There is no PATCH endpoint for conversations. Close, reopen, assign, and label operations create an action-only draft via `POST /v1/drafts` with action parameters (`close`, `add_to_inbox`, `add_assignees`, `add_shared_labels`, etc.).
 - **Build before running globally.** After editing source, `npm run build` is required before the `missive` global command reflects changes. Use `npx tsx src/cli.ts` during dev to skip the build step.
 
 ## Adding New Commands
