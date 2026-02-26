@@ -82,3 +82,62 @@ export interface CreateDraftParams {
   send?: boolean;
   from_field?: EmailField;
 }
+
+export interface ContactInfo {
+  kind: "email" | "phone_number" | "twitter" | "facebook" | "physical_address" | "url" | "custom";
+  value?: string;
+  label: string;
+  custom_label?: string;
+}
+
+export interface ContactMembership {
+  department?: string;
+  title?: string;
+  location?: string;
+  description?: string;
+  group: { kind: "organization" | "group"; name: string };
+}
+
+export interface Contact {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  middle_name: string | null;
+  nickname: string | null;
+  prefix: string | null;
+  suffix: string | null;
+  notes: string | null;
+  starred: boolean;
+  gender: string | null;
+  contact_book: string;
+  deleted: boolean;
+  modified_at: number;
+  infos: ContactInfo[];
+  memberships: ContactMembership[];
+}
+
+export interface ContactBook {
+  id: string;
+  name: string;
+  description: string | null;
+  user: string | null;
+  organization: string | null;
+  share_with_organization: boolean;
+  share_with_team: string | null;
+  share_with_users: string[];
+}
+
+export interface CreateContactParams {
+  contact_book: string;
+  first_name?: string;
+  last_name?: string;
+  notes?: string;
+  infos?: ContactInfo[];
+}
+
+export interface UpdateContactParams {
+  first_name?: string;
+  last_name?: string;
+  notes?: string;
+  infos?: ContactInfo[];
+}
