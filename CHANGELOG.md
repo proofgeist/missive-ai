@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/proofgeist/missivecli/compare/v0.0.0...v0.1.0) (2026-02-26)
+
+
+### Features
+
+* add --from flag to drafts create command ([af9badf](https://github.com/proofgeist/missivecli/commit/af9badf922e17e29b796c3b0096208362ab70605))
+
 # 1.0.0 (2026-02-26)
 
 
