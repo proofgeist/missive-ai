@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 CLI tool (`missive`) for the Missive team email/messaging REST API. Optimized for use by Claude Code via Bash — zero MCP context token cost. JSON output by default.
 
+## Project Manifest
+
+See [.atlas/project.yaml](.atlas/project.yaml) for project metadata including GitHub links, tags, and status.
+
 ## Commands
 
 ```bash
