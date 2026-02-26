@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     globals: true,
     restoreMocks: true,
+    exclude: ["dist/**", "node_modules/**"],
   },
 });

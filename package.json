@@ -1,5 +1,5 @@
 {
-  "name": "missive-mcp",
+  "name": "missivecli",
   "version": "0.1.0",
   "description": "CLI for the Missive email/messaging API",
   "type": "module",

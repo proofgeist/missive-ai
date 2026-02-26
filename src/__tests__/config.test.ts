@@ -46,7 +46,7 @@ describe("config", () => {
     it("creates config directory and writes JSON file", () => {
       writeConfig({ token: "new-token" });
       expect(fs.mkdirSync).toHaveBeenCalledWith(
-        expect.stringContaining("missive-mcp"),
+        expect.stringContaining("missivecli"),
         { recursive: true },
       );
       expect(fs.writeFileSync).toHaveBeenCalledWith(

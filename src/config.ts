@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
-const CONFIG_DIR = join(homedir(), ".config", "missive-mcp");
+const CONFIG_DIR = join(homedir(), ".config", "missivecli");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");
 
 interface Config {
