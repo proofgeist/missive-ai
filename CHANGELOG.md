@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/proofgeist/missivecli/compare/v0.2.0...v0.3.0) (2026-02-26)
+
+
+### Features
+
+* add prepare script for one-line install from GitHub ([5fc55a3](https://github.com/proofgeist/missivecli/commit/5fc55a3ceb5b492befebede9faafc35388004283))
+
 # [0.2.0](https://github.com/proofgeist/missivecli/compare/v0.1.0...v0.2.0) (2026-02-26)
 
 
