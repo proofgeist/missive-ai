@@ -32,9 +32,11 @@ src/
 ├── config.ts           # Token resolution (CLI flag > env var > config file) and config I/O
 ├── client.ts           # MissiveClient class — all REST calls, MissiveApiError
 ├── output.ts           # JSON output to stdout, error to stderr
-├── types.ts            # Missive API response types (Conversation, Message, Draft, etc.)
+├── types.ts            # Missive API response types (Conversation, Message, Draft, Contact, etc.)
 └── commands/
     ├── conversations.ts  # list, get, messages, drafts — aliased as "conv"
+    ├── contacts.ts       # list, get, create, update — aliased as "contact"
+    ├── contact-books.ts  # list
     ├── drafts.ts         # create (with --send), delete
     └── messages.ts       # get, search — aliased as "msg"
 ```
