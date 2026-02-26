@@ -120,6 +120,41 @@ describe("CLI", () => {
     });
   });
 
+  describe("contacts", () => {
+    it("shows subcommands in help", async () => {
+      const { stdout } = await run("contacts", "--help");
+      expect(stdout).toContain("list");
+      expect(stdout).toContain("get");
+      expect(stdout).toContain("create");
+      expect(stdout).toContain("update");
+    });
+
+    it("contact alias works", async () => {
+      const { stdout } = await run("contact", "--help");
+      expect(stdout).toContain("list");
+    });
+
+    it("list shows required contact-book option", async () => {
+      const { stdout } = await run("contacts", "list", "--help");
+      expect(stdout).toContain("--contact-book");
+    });
+
+    it("create shows required and optional flags", async () => {
+      const { stdout } = await run("contacts", "create", "--help");
+      expect(stdout).toContain("--contact-book");
+      expect(stdout).toContain("--first-name");
+      expect(stdout).toContain("--email");
+      expect(stdout).toContain("--phone");
+    });
+  });
+
+  describe("contact-books", () => {
+    it("shows subcommands in help", async () => {
+      const { stdout } = await run("contact-books", "--help");
+      expect(stdout).toContain("list");
+    });
+  });
+
   describe("error handling", () => {
     it("shows error when command requires token but none configured", async () => {
       // Clear MISSIVE_API_TOKEN for this test if set
