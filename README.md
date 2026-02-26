@@ -5,11 +5,7 @@ CLI for the [Missive](https://missiveapp.com) team email/messaging REST API. JSO
 ## Install
 
 ```bash
-git clone https://github.com/proofgeist/missivecli.git
-cd missivecli
-npm install
-npm run build
-npm link
+npm install -g github:proofgeist/missivecli
 ```
 
 ## Auth
