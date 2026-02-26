@@ -1,3 +1,16 @@
+# [0.2.0](https://github.com/proofgeist/missivecli/compare/v0.1.0...v0.2.0) (2026-02-26)
+
+
+### Features
+
+* add close, reopen, assign, label conversation commands ([b77d838](https://github.com/proofgeist/missivecli/commit/b77d8383c38d24ec3673f0e24d838ae192ffe435))
+* add contact and contact book client methods ([b8a451f](https://github.com/proofgeist/missivecli/commit/b8a451f0703393a48ae666d7c1fdc8b5949d7b19))
+* add contact and contact book types ([2331b02](https://github.com/proofgeist/missivecli/commit/2331b0227b883f7303ed8865f09f4ded3812b1f5))
+* add contact-books command ([2a208ee](https://github.com/proofgeist/missivecli/commit/2a208ee8236568dc69dfaef286ba2b837c95d850))
+* add contacts command with list, get, create, update ([12fb2d4](https://github.com/proofgeist/missivecli/commit/12fb2d4127797f2aa83dfa8eef78171d642e1cc8))
+* add conversation action client method ([0042e51](https://github.com/proofgeist/missivecli/commit/0042e51780000b04e15a73541a3df6da757b1331))
+* register contacts and contact-books commands ([13861fa](https://github.com/proofgeist/missivecli/commit/13861fab2f4b66f207e7b1bd5bea654c414a380b))
+
 # [0.1.0](https://github.com/proofgeist/missivecli/compare/v0.0.0...v0.1.0) (2026-02-26)
 
 
