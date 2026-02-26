@@ -53,6 +53,26 @@ describe("CLI", () => {
       expect(stdout).toContain("--limit");
       expect(stdout).toContain("--until");
     });
+
+    it("close shows in help", async () => {
+      const out = await run("conv", "--help");
+      expect(out.stdout).toContain("close");
+      expect(out.stdout).toContain("reopen");
+      expect(out.stdout).toContain("assign");
+      expect(out.stdout).toContain("label");
+    });
+
+    it("assign shows required flags", async () => {
+      const out = await run("conv", "assign", "--help");
+      expect(out.stdout).toContain("--users");
+      expect(out.stdout).toContain("--organization");
+    });
+
+    it("label shows add and remove flags", async () => {
+      const out = await run("conv", "label", "--help");
+      expect(out.stdout).toContain("--add");
+      expect(out.stdout).toContain("--remove");
+    });
   });
 
   describe("drafts", () => {
