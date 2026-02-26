@@ -51,6 +51,13 @@ src/
 - Draft sending: no separate "send" endpoint. Use `missive drafts create --send` which sets `send: true` on creation.
 - Draft create body wraps params in a `drafts` key (Missive API convention).
 
+### API Gotchas (discovered via smoke testing)
+
+- **Conversations list requires a mailbox filter.** The API returns 400 `"You need to paginate at least one mailbox"` if you don't specify one. Our client defaults to `inbox` when no label/team filter is given. Valid mailbox values: `inbox`, `all`, `assigned`, `closed`, `snoozed`, `flagged`, `trashed`, `drafts`.
+- **Minimum limit is 2.** Passing `--limit 1` returns 400 `"min 'limit' value is 2"`. Max is 50 for conversations, 10 for messages/drafts.
+- **Get conversation returns an array.** `GET /conversations/:id` wraps the result in `{ conversations: [...] }` (array), not a single object, despite being a single-resource fetch.
+- **Build before running globally.** After editing source, `npm run build` is required before the `missive` global command reflects changes. Use `npx tsx src/cli.ts` during dev to skip the build step.
+
 ## Adding New Commands
 
 1. Create `src/commands/<resource>.ts` exporting `register<Resource>(program, getClient)`
