@@ -227,4 +227,108 @@ describe("MissiveClient", () => {
       expect(url).toContain(encodeURIComponent("<abc@test.com>"));
     });
   });
+
+  describe("listContacts", () => {
+    it("calls GET /contacts with contact_book query param", async () => {
+      const fetch = mockFetch({ contacts: [] });
+      vi.stubGlobal("fetch", fetch);
+      await client.listContacts({ contact_book: "book-1" });
+      const url = fetch.mock.calls[0][0] as string;
+      expect(url).toContain("/contacts");
+      expect(url).toContain("contact_book=book-1");
+      expect(fetch).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({ method: "GET" }),
+      );
+    });
+
+    it("passes search, limit, and offset params", async () => {
+      const fetch = mockFetch({ contacts: [] });
+      vi.stubGlobal("fetch", fetch);
+      await client.listContacts({ contact_book: "book-1", search: "John", limit: 10, offset: 20 });
+      const url = fetch.mock.calls[0][0] as string;
+      expect(url).toContain("search=John");
+      expect(url).toContain("limit=10");
+      expect(url).toContain("offset=20");
+    });
+  });
+
+  describe("getContact", () => {
+    it("calls GET /contacts/:id", async () => {
+      const mockContact = { id: "c-1", first_name: "John" };
+      const fetch = mockFetch({ contacts: mockContact });
+      vi.stubGlobal("fetch", fetch);
+      const result = await client.getContact("c-1");
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.test.com/v1/contacts/c-1",
+        expect.objectContaining({ method: "GET" }),
+      );
+      expect(result.contacts).toEqual(mockContact);
+    });
+  });
+
+  describe("createContact", () => {
+    it("calls POST /contacts with correct body", async () => {
+      const fetch = mockFetch({ contacts: { id: "c-new" } });
+      vi.stubGlobal("fetch", fetch);
+      await client.createContact({
+        contact_book: "book-1",
+        first_name: "Jane",
+        last_name: "Doe",
+        infos: [{ kind: "email", value: "jane@test.com", label: "work" }],
+      });
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.test.com/v1/contacts",
+        expect.objectContaining({
+          method: "POST",
+          body: JSON.stringify({
+            contacts: [{
+              contact_book: "book-1",
+              first_name: "Jane",
+              last_name: "Doe",
+              infos: [{ kind: "email", value: "jane@test.com", label: "work" }],
+            }],
+          }),
+        }),
+      );
+    });
+  });
+
+  describe("updateContact", () => {
+    it("calls PATCH /contacts/:id with correct body", async () => {
+      const fetch = mockFetch({ contacts: { id: "c-1" } });
+      vi.stubGlobal("fetch", fetch);
+      await client.updateContact("c-1", { first_name: "Updated" });
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.test.com/v1/contacts/c-1",
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify({
+            contacts: { first_name: "Updated" },
+          }),
+        }),
+      );
+    });
+  });
+
+  describe("listContactBooks", () => {
+    it("calls GET /contact_books", async () => {
+      const fetch = mockFetch({ contact_books: [] });
+      vi.stubGlobal("fetch", fetch);
+      await client.listContactBooks();
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.test.com/v1/contact_books",
+        expect.objectContaining({ method: "GET" }),
+      );
+    });
+
+    it("passes limit and offset params", async () => {
+      const fetch = mockFetch({ contact_books: [] });
+      vi.stubGlobal("fetch", fetch);
+      await client.listContactBooks({ limit: 10, offset: 5 });
+      const url = fetch.mock.calls[0][0] as string;
+      expect(url).toContain("limit=10");
+      expect(url).toContain("offset=5");
+    });
+  });
 });
