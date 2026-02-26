@@ -5,6 +5,8 @@ import { homedir } from "node:os";
 import { resolveToken, readConfig, writeConfig } from "./config.js";
 import { MissiveClient, MissiveApiError } from "./client.js";
 import { registerConversations } from "./commands/conversations.js";
+import { registerDrafts } from "./commands/drafts.js";
+import { registerMessages } from "./commands/messages.js";
 
 const program = new Command();
 
@@ -51,6 +53,8 @@ const getClient = (): MissiveClient => {
 
 // Register command groups
 registerConversations(program, getClient);
+registerDrafts(program, getClient);
+registerMessages(program, getClient);
 
 async function main() {
   try {
