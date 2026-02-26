@@ -3,6 +3,11 @@ import type {
   Message,
   Draft,
   CreateDraftParams,
+  ConversationActionParams,
+  Contact,
+  ContactBook,
+  CreateContactParams,
+  UpdateContactParams,
 } from "./types.js";
 
 export class MissiveApiError extends Error {
@@ -131,5 +136,75 @@ export class MissiveClient {
   ): Promise<{ messages: Message[] }> {
     const query = new URLSearchParams({ email_message_id: emailMessageId });
     return this.request("GET", `/messages?${query.toString()}`);
+  }
+
+  // --- Conversation Actions ---
+
+  async performConversationAction(
+    conversationId: string,
+    params: ConversationActionParams,
+  ): Promise<{ drafts: Draft }> {
+    return this.request("POST", "/drafts", {
+      drafts: {
+        conversation: conversationId,
+        ...params,
+      },
+    });
+  }
+
+  // --- Contacts ---
+
+  async listContacts(params: {
+    contact_book: string;
+    search?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<{ contacts: Contact[] }> {
+    const query = new URLSearchParams();
+    query.set("contact_book", params.contact_book);
+    if (params.search) query.set("search", params.search);
+    if (params.limit) query.set("limit", String(params.limit));
+    if (params.offset !== undefined) query.set("offset", String(params.offset));
+    return this.request("GET", `/contacts?${query.toString()}`);
+  }
+
+  async getContact(id: string): Promise<{ contacts: Contact }> {
+    return this.request("GET", `/contacts/${id}`);
+  }
+
+  async createContact(params: CreateContactParams): Promise<{ contacts: Contact }> {
+    return this.request("POST", "/contacts", {
+      contacts: [{
+        contact_book: params.contact_book,
+        first_name: params.first_name,
+        last_name: params.last_name,
+        notes: params.notes,
+        infos: params.infos,
+      }],
+    });
+  }
+
+  async updateContact(id: string, params: UpdateContactParams): Promise<{ contacts: Contact }> {
+    return this.request("PATCH", `/contacts/${id}`, {
+      contacts: {
+        first_name: params.first_name,
+        last_name: params.last_name,
+        notes: params.notes,
+        infos: params.infos,
+      },
+    });
+  }
+
+  // --- Contact Books ---
+
+  async listContactBooks(params?: {
+    limit?: number;
+    offset?: number;
+  }): Promise<{ contact_books: ContactBook[] }> {
+    const query = new URLSearchParams();
+    if (params?.limit) query.set("limit", String(params.limit));
+    if (params?.offset !== undefined) query.set("offset", String(params.offset));
+    const qs = query.toString();
+    return this.request("GET", `/contact_books${qs ? `?${qs}` : ""}`);
   }
 }

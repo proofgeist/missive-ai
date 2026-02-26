@@ -141,3 +141,14 @@ export interface UpdateContactParams {
   notes?: string;
   infos?: ContactInfo[];
 }
+
+export interface ConversationActionParams {
+  close?: boolean;
+  add_to_inbox?: boolean;
+  add_to_team_inbox?: boolean;
+  team?: string;
+  add_assignees?: string[];
+  organization?: string;
+  add_shared_labels?: string[];
+  remove_shared_labels?: string[];
+}
