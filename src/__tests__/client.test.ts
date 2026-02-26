@@ -40,12 +40,14 @@ describe("MissiveClient", () => {
   });
 
   describe("listConversations", () => {
-    it("calls GET /conversations with no params", async () => {
+    it("defaults to inbox mailbox when no filter specified", async () => {
       const fetch = mockFetch({ conversations: [] });
       vi.stubGlobal("fetch", fetch);
       const result = await client.listConversations();
+      const url = fetch.mock.calls[0][0] as string;
+      expect(url).toContain("inbox=true");
       expect(fetch).toHaveBeenCalledWith(
-        "https://api.test.com/v1/conversations",
+        expect.stringContaining("/conversations"),
         expect.objectContaining({ method: "GET" }),
       );
       expect(result).toEqual({ conversations: [] });

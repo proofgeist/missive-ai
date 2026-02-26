@@ -13,13 +13,15 @@ export function registerConversations(
 
   conv
     .command("list")
-    .description("List conversations")
+    .description("List conversations (defaults to inbox)")
+    .option("--mailbox <type>", "Mailbox filter: inbox, all, assigned, closed, snoozed, flagged, trashed, drafts (default: inbox)")
     .option("--label <id>", "Filter by shared label ID")
     .option("--team <id>", "Filter by team ID")
     .option("--limit <n>", "Max results (default 25, max 50)", parseInt)
     .option("--until <timestamp>", "Pagination: Unix timestamp", parseInt)
     .action(async (opts) => {
       const result = await getClient().listConversations({
+        mailbox: opts.mailbox,
         label: opts.label,
         team: opts.team,
         limit: opts.limit,

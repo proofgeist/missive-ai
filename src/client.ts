@@ -53,13 +53,16 @@ export class MissiveClient {
   // --- Conversations ---
 
   async listConversations(params?: {
-    mailbox?: string;
+    mailbox?: "inbox" | "all" | "assigned" | "closed" | "snoozed" | "flagged" | "trashed" | "drafts";
     label?: string;
     team?: string;
     limit?: number;
     until?: number;
   }): Promise<{ conversations: Conversation[] }> {
     const query = new URLSearchParams();
+    // Missive requires at least one mailbox filter — default to inbox
+    const mailbox = params?.mailbox ?? (params?.label || params?.team ? undefined : "inbox");
+    if (mailbox) query.set(mailbox, "true");
     if (params?.label) query.set("shared_label", params.label);
     if (params?.team) query.set("team_all", params.team);
     if (params?.limit) query.set("limit", String(params.limit));
