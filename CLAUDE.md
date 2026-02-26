@@ -13,6 +13,9 @@ npm run build          # Compile TypeScript to dist/
 npm run dev            # Run CLI via tsx (no build needed)
 npx tsc --noEmit       # Type-check without emitting
 npm link               # Install `missive` globally from local build
+npm test               # Run all tests (vitest)
+npm run test:watch     # Run tests in watch mode
+npx vitest run src/__tests__/client.test.ts   # Run single test file
 ```
 
 Run any CLI command during dev without building: `npx tsx src/cli.ts <command>`.
