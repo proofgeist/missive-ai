@@ -34,7 +34,7 @@ src/
 ├── output.ts           # JSON output to stdout, error to stderr
 ├── types.ts            # Missive API response types (Conversation, Message, Draft, Contact, etc.)
 └── commands/
-    ├── conversations.ts  # list, get, messages, drafts — aliased as "conv"
+    ├── conversations.ts  # list, get, messages, drafts, close, reopen, assign, label — aliased as "conv"
     ├── contacts.ts       # list, get, create, update — aliased as "contact"
     ├── contact-books.ts  # list
     ├── drafts.ts         # create (with --send), delete
