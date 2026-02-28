@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/proofgeist/missivecli/compare/v0.3.0...v0.4.0) (2026-02-28)
+
+
+### Features
+
+* add MCP server with 17 tools over stdio ([b804286](https://github.com/proofgeist/missivecli/commit/b804286d62d52728bbf65009891b347c2c721f6e))
+
 # [0.3.0](https://github.com/proofgeist/missivecli/compare/v0.2.0...v0.3.0) (2026-02-26)
 
 
