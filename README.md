@@ -1,6 +1,8 @@
 # missivecli
 
-CLI for the [Missive](https://missiveapp.com) team email/messaging REST API. JSON output, designed for use with Claude Code via Bash.
+CLI and MCP server for the [Missive](https://missiveapp.com) team email/messaging REST API. Two interfaces into the same client:
+- **CLI** (`missive`): JSON output via Bash
+- **MCP server** (`missive-mcp`): 17 tools over stdio for Claude Code and other MCP clients
 
 ## Install
 
@@ -74,10 +76,54 @@ missive contacts create --contact-book <book-id> --first-name "Jane" --last-name
 missive contacts update <id> --first-name "Janet"
 ```
 
+## MCP Server
+
+The MCP server exposes 17 tools covering conversations, messages, drafts, contacts, and contact books. Auth via `MISSIVE_API_TOKEN` env var.
+
+### Claude Code
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "missive": {
+      "command": "missive-mcp",
+      "env": {
+        "MISSIVE_API_TOKEN": "missive_pat-xxx"
+      }
+    }
+  }
+}
+```
+
+### Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_conversations` | List conversations from a mailbox |
+| `get_conversation` | Get conversation by ID |
+| `get_conversation_messages` | Get messages in a conversation |
+| `get_conversation_drafts` | Get drafts in a conversation |
+| `close_conversation` | Close/archive a conversation |
+| `reopen_conversation` | Reopen a conversation |
+| `assign_conversation` | Assign users to a conversation |
+| `label_conversation` | Add/remove shared labels |
+| `get_message` | Get message with full body |
+| `search_messages` | Search by Message-ID header |
+| `create_draft` | Create draft or send email |
+| `delete_draft` | Delete a draft |
+| `list_contacts` | List contacts in a book |
+| `get_contact` | Get contact by ID |
+| `create_contact` | Create a contact |
+| `update_contact` | Update a contact |
+| `list_contact_books` | List contact books |
+
 ## Development
 
 ```bash
-npx tsx src/cli.ts <command>     # Run without building
+npx tsx src/cli.ts <command>     # Run CLI without building
+npx tsx src/mcp.ts               # Run MCP server without building
 npm test                         # Run tests (vitest)
 npx tsc --noEmit                 # Type-check
 npm run build                    # Compile to dist/

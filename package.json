@@ -5,12 +5,14 @@
   "description": "CLI for the Missive email/messaging API",
   "type": "module",
   "bin": {
-    "missive": "./dist/cli.js"
+    "missive": "./dist/cli.js",
+    "missive-mcp": "./dist/mcp.js"
   },
   "scripts": {
     "prepare": "tsc",
     "build": "tsc",
     "dev": "tsx src/cli.ts",
+    "dev:mcp": "tsx src/mcp.ts",
     "start": "node dist/cli.js",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -19,7 +21,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "commander": "^13.0.0"
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "commander": "^13.0.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -31,16 +35,23 @@
     "vitest": "^4.0.18"
   },
   "release": {
-    "branches": ["main"],
+    "branches": [
+      "main"
+    ],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
       "@semantic-release/github",
-      ["@semantic-release/git", {
-        "assets": ["CHANGELOG.md"],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      }]
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   }
 }

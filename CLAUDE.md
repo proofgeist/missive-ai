@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-CLI tool (`missive`) for the Missive team email/messaging REST API. Optimized for use by Claude Code via Bash — zero MCP context token cost. JSON output by default.
+CLI tool (`missive`) and MCP server (`missive-mcp`) for the Missive team email/messaging REST API. Two entry points into the same `MissiveClient`:
+- **CLI**: `missive` command, JSON output via Bash — zero MCP context token cost
+- **MCP server**: `missive-mcp` binary, 17 tools over stdio for direct Claude Code integration
 
 ## Project Manifest
 
@@ -15,22 +17,25 @@ See [.atlas/project.yaml](.atlas/project.yaml) for project metadata including Gi
 ```bash
 npm run build          # Compile TypeScript to dist/
 npm run dev            # Run CLI via tsx (no build needed)
+npm run dev:mcp        # Run MCP server via tsx (no build needed)
 npx tsc --noEmit       # Type-check without emitting
-npm link               # Install `missive` globally from local build
+npm link               # Install `missive` + `missive-mcp` globally
 npm test               # Run all tests (vitest)
 npm run test:watch     # Run tests in watch mode
 npx vitest run src/__tests__/client.test.ts   # Run single test file
 ```
 
 Run any CLI command during dev without building: `npx tsx src/cli.ts <command>`.
+Run MCP server during dev: `MISSIVE_API_TOKEN=... npx tsx src/mcp.ts`.
 
 ## Architecture
 
 ```
 src/
-├── cli.ts              # Entry point — commander setup, config commands, error handling
+├── cli.ts              # CLI entry point — commander setup, config commands, error handling
+├── mcp.ts              # MCP server entry point — 17 tools over stdio, MISSIVE_API_TOKEN env var
 ├── config.ts           # Token resolution (CLI flag > env var > config file) and config I/O
-├── client.ts           # MissiveClient class — all REST calls, MissiveApiError
+├── client.ts           # MissiveClient class — all REST calls, MissiveApiError (shared by CLI + MCP)
 ├── output.ts           # JSON output to stdout, error to stderr
 ├── types.ts            # Missive API response types (Conversation, Message, Draft, Contact, etc.)
 └── commands/
