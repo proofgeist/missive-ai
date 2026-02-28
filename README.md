@@ -1,4 +1,4 @@
-# missivecli
+# missive-ai
 
 CLI and MCP server for the [Missive](https://missiveapp.com) team email/messaging REST API. Two interfaces into the same client:
 - **CLI** (`missive`): JSON output via Bash
