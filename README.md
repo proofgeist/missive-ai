@@ -7,7 +7,7 @@ CLI and MCP server for the [Missive](https://missiveapp.com) team email/messagin
 ## Install
 
 ```bash
-npm install -g github:proofgeist/missivecli
+npm install -g github:proofgeist/missive-ai
 ```
 
 ## Auth

@@ -39,7 +39,7 @@ config
       JSON.stringify(
         {
           token: token ? token.slice(0, 16) + "..." : null,
-          config_path: join(homedir(), ".config", "missivecli", "config.json"),
+          config_path: join(homedir(), ".config", "missive-ai", "config.json"),
         },
         null,
         2,

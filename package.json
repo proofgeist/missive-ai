@@ -1,5 +1,5 @@
 {
-  "name": "missivecli",
+  "name": "missive-ai",
   "version": "0.0.0-semantically-released",
   "private": true,
   "description": "CLI for the Missive email/messaging API",

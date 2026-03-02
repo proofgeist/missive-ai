@@ -57,7 +57,7 @@ src/
 - Base URL: `https://public.missiveapp.com/v1/`
 - Auth: Bearer token (personal access token, format `missive_pat-...`)
 - Token config: `MISSIVE_API_TOKEN` env var, `--token` flag, or `missive config set-token`
-- Config stored at: `~/.config/missivecli/config.json`
+- Config stored at: `~/.config/missive-ai/config.json`
 - Pagination: uses `until` (Unix timestamp of last item), not offset. Conversations paginate by `last_activity_at`, messages by `delivered_at`.
 - Draft sending: no separate "send" endpoint. Use `missive drafts create --send` which sets `send: true` on creation.
 - Draft create body wraps params in a `drafts` key (Missive API convention).
