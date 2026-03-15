@@ -333,42 +333,44 @@ describe("MissiveClient", () => {
   });
 
   describe("performConversationAction", () => {
-    it("calls POST /drafts with close action", async () => {
-      const fetch = mockFetch({ drafts: { id: "d-1" } });
+    it("calls POST /posts with close action", async () => {
+      const fetch = mockFetch({ posts: { id: "p-1" } });
       vi.stubGlobal("fetch", fetch);
       await client.performConversationAction("conv-1", { close: true });
       const body = JSON.parse(fetch.mock.calls[0][1].body as string);
-      expect(body.drafts.conversation).toBe("conv-1");
-      expect(body.drafts.close).toBe(true);
+      expect(body.posts.conversation).toBe("conv-1");
+      expect(body.posts.close).toBe(true);
+      expect(body.posts.notification).toBeDefined();
+      expect(body.posts.text).toBeDefined();
     });
 
-    it("calls POST /drafts with add_to_inbox action", async () => {
-      const fetch = mockFetch({ drafts: { id: "d-1" } });
+    it("calls POST /posts with add_to_inbox action", async () => {
+      const fetch = mockFetch({ posts: { id: "p-1" } });
       vi.stubGlobal("fetch", fetch);
       await client.performConversationAction("conv-1", { add_to_inbox: true });
       const body = JSON.parse(fetch.mock.calls[0][1].body as string);
-      expect(body.drafts.conversation).toBe("conv-1");
-      expect(body.drafts.add_to_inbox).toBe(true);
+      expect(body.posts.conversation).toBe("conv-1");
+      expect(body.posts.add_to_inbox).toBe(true);
     });
 
-    it("calls POST /drafts with add_shared_labels", async () => {
-      const fetch = mockFetch({ drafts: { id: "d-1" } });
+    it("calls POST /posts with add_shared_labels", async () => {
+      const fetch = mockFetch({ posts: { id: "p-1" } });
       vi.stubGlobal("fetch", fetch);
       await client.performConversationAction("conv-1", { add_shared_labels: ["label-1"] });
       const body = JSON.parse(fetch.mock.calls[0][1].body as string);
-      expect(body.drafts.add_shared_labels).toEqual(["label-1"]);
+      expect(body.posts.add_shared_labels).toEqual(["label-1"]);
     });
 
-    it("calls POST /drafts with add_assignees and organization", async () => {
-      const fetch = mockFetch({ drafts: { id: "d-1" } });
+    it("calls POST /posts with add_assignees and organization", async () => {
+      const fetch = mockFetch({ posts: { id: "p-1" } });
       vi.stubGlobal("fetch", fetch);
       await client.performConversationAction("conv-1", {
         add_assignees: ["user-1"],
         organization: "org-1",
       });
       const body = JSON.parse(fetch.mock.calls[0][1].body as string);
-      expect(body.drafts.add_assignees).toEqual(["user-1"]);
-      expect(body.drafts.organization).toBe("org-1");
+      expect(body.posts.add_assignees).toEqual(["user-1"]);
+      expect(body.posts.organization).toBe("org-1");
     });
   });
 });

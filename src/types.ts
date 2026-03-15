@@ -147,8 +147,21 @@ export interface ConversationActionParams {
   add_to_inbox?: boolean;
   add_to_team_inbox?: boolean;
   team?: string;
+  force_team?: boolean;
   add_assignees?: string[];
   organization?: string;
   add_shared_labels?: string[];
   remove_shared_labels?: string[];
+  conversation_subject?: string;
+  conversation_color?: string;
+}
+
+export interface Post {
+  id: string;
+  created_at: number;
+  username: string;
+  username_icon: string | null;
+  notification: Record<string, unknown> | null;
+  attachments: Attachment[];
+  conversation?: Conversation;
 }
