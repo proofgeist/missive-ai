@@ -142,6 +142,11 @@ export interface UpdateContactParams {
   infos?: ContactInfo[];
 }
 
+export interface Organization {
+  id: string;
+  name: string;
+}
+
 export interface ConversationActionParams {
   close?: boolean;
   add_to_inbox?: boolean;

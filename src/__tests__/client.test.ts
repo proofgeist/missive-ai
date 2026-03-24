@@ -377,4 +377,17 @@ describe("MissiveClient", () => {
       expect(body.posts.organization).toBe("org-1");
     });
   });
+
+  describe("listOrganizations", () => {
+    it("calls GET /organizations", async () => {
+      const fetch = mockFetch({ organizations: [{ id: "org-1", name: "Test Org" }] });
+      vi.stubGlobal("fetch", fetch);
+      const result = await client.listOrganizations();
+      expect(fetch).toHaveBeenCalledWith(
+        "https://api.test.com/v1/organizations",
+        expect.objectContaining({ method: "GET" }),
+      );
+      expect(result.organizations).toEqual([{ id: "org-1", name: "Test Org" }]);
+    });
+  });
 });
