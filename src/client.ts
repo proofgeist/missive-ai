@@ -2,6 +2,7 @@ import type {
   Conversation,
   Message,
   Draft,
+  Post,
   CreateDraftParams,
   ConversationActionParams,
   Contact,
@@ -138,15 +139,29 @@ export class MissiveClient {
     return this.request("GET", `/messages?${query.toString()}`);
   }
 
-  // --- Conversation Actions ---
+  // --- Conversation Actions (via Posts) ---
+  // Posts are the recommended approach for automations — they leave a visible
+  // trace and don't create ghost draft artifacts like the drafts endpoint does.
 
   async performConversationAction(
     conversationId: string,
     params: ConversationActionParams,
-  ): Promise<{ drafts: Draft }> {
-    return this.request("POST", "/drafts", {
-      drafts: {
+  ): Promise<{ posts: Post }> {
+    const action = params.close
+      ? "closed"
+      : params.add_to_inbox
+        ? "reopened"
+        : params.add_assignees
+          ? "assigned"
+          : params.add_shared_labels || params.remove_shared_labels
+            ? "labels updated"
+            : "updated";
+
+    return this.request("POST", "/posts", {
+      posts: {
         conversation: conversationId,
+        notification: { title: `Conversation ${action}`, body: `Via Missive CLI` },
+        text: `Conversation ${action} via CLI`,
         ...params,
       },
     });

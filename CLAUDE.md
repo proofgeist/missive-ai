@@ -56,7 +56,7 @@ src/
 
 - Base URL: `https://public.missiveapp.com/v1/`
 - Auth: Bearer token (personal access token, format `missive_pat-...`)
-- Token config: `MISSIVE_API_TOKEN` env var, `--token` flag, or `missive config set-token`
+- Token config: `MISSIVE_API_TOKEN` env var (or `MISSIVE_API_KEY` alias), `--token` flag, or `missive config set-token`
 - Config stored at: `~/.config/missive-ai/config.json`
 - Pagination: uses `until` (Unix timestamp of last item), not offset. Conversations paginate by `last_activity_at`, messages by `delivered_at`.
 - Draft sending: no separate "send" endpoint. Use `missive drafts create --send` which sets `send: true` on creation.
@@ -68,7 +68,9 @@ src/
 - **Minimum limit is 2.** Passing `--limit 1` returns 400 `"min 'limit' value is 2"`. Max is 50 for conversations, 10 for messages/drafts.
 - **Get conversation returns an array.** `GET /conversations/:id` wraps the result in `{ conversations: [...] }` (array), not a single object, despite being a single-resource fetch.
 - **Draft create requires `from_field`.** The API returns 400 `"'from_field' does not match an available sender"` if you omit it or use an email not configured as a sender in Missive. Use `--from <email>` with a valid sender address.
-- **Conversation state changes use the drafts endpoint.** There is no PATCH endpoint for conversations. Close, reopen, assign, and label operations create an action-only draft via `POST /v1/drafts` with action parameters (`close`, `add_to_inbox`, `add_assignees`, `add_shared_labels`, etc.).
+- **Conversation state changes use the posts endpoint.** There is no PATCH endpoint for conversations. Close, reopen, assign, and label operations use `POST /v1/posts` with action parameters (`close`, `add_to_inbox`, `add_assignees`, `add_shared_labels`, etc.). Posts are Missive's recommended approach for automations — they leave a visible trace and don't create ghost draft artifacts. Posts require `notification` (object with `title` and `body`) and `text` fields in addition to action params.
+- **Label and assign operations require `organization`.** Shared labels are organization-scoped, so `add_shared_labels`/`remove_shared_labels` require the `organization` field in the post body. Same for `add_assignees`. Without it, the API silently fails or returns an error.
+- **Close ≠ Archive.** `close` resolves an assignment (team workflow state). It does NOT remove conversations from the inbox. There is no REST API endpoint or parameter to archive conversations (remove from inbox). Archiving is only available via the Missive UI or JavaScript/iFrame API. Gmail archive should sync to Missive in theory, but may not work reliably.
 - **Build before running globally.** After editing source, `npm run build` is required before the `missive` global command reflects changes. Use `npx tsx src/cli.ts` during dev to skip the build step.
 
 ## Adding New Commands

@@ -18,7 +18,7 @@ Get a personal access token from Missive (Settings > API tokens). Then:
 missive config set-token missive_pat-xxx
 ```
 
-Or set `MISSIVE_API_TOKEN` env var, or pass `--token` on each command.
+Or set `MISSIVE_API_TOKEN` (or `MISSIVE_API_KEY`) env var, or pass `--token` on each command.
 
 ## Usage
 
@@ -78,7 +78,7 @@ missive contacts update <id> --first-name "Janet"
 
 ## MCP Server
 
-The MCP server exposes 17 tools covering conversations, messages, drafts, contacts, and contact books. Auth via `MISSIVE_API_TOKEN` env var.
+The MCP server exposes 17 tools covering conversations, messages, drafts, contacts, and contact books. Auth via `MISSIVE_API_TOKEN` env var (also accepts `MISSIVE_API_KEY`), or the stored config token.
 
 ### Claude Code
 

@@ -4,16 +4,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { MissiveClient, MissiveApiError } from "./client.js";
+import { resolveToken } from "./config.js";
 import type { ContactInfo } from "./types.js";
 
 // --- Client setup ---
 
-const token = process.env.MISSIVE_API_TOKEN;
-if (!token) {
-  console.error("MISSIVE_API_TOKEN environment variable is required");
-  process.exit(1);
-}
-const client = new MissiveClient(token);
+const client = new MissiveClient(resolveToken());
 
 // --- Helpers ---
 
@@ -141,12 +137,14 @@ server.registerTool("label_conversation", {
   description: "Add or remove shared labels on a conversation.",
   inputSchema: {
     id: z.string().describe("Conversation ID"),
+    organization: z.string().describe("Organization ID (required by Missive API)"),
     add: z.array(z.string()).optional().describe("Shared label IDs to add"),
     remove: z.array(z.string()).optional().describe("Shared label IDs to remove"),
   },
-}, async ({ id, add, remove }) => {
+}, async ({ id, organization, add, remove }) => {
   try {
     return ok(await client.performConversationAction(id, {
+      organization,
       add_shared_labels: add,
       remove_shared_labels: remove,
     }));

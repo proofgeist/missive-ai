@@ -68,8 +68,9 @@ describe("CLI", () => {
       expect(out.stdout).toContain("--organization");
     });
 
-    it("label shows add and remove flags", async () => {
+    it("label shows required organization and add/remove flags", async () => {
       const out = await run("conv", "label", "--help");
+      expect(out.stdout).toContain("--organization");
       expect(out.stdout).toContain("--add");
       expect(out.stdout).toContain("--remove");
     });

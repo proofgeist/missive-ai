@@ -96,6 +96,7 @@ export function registerConversations(
   conv
     .command("label <id>")
     .description("Add or remove shared labels on a conversation")
+    .requiredOption("--organization <id>", "Organization ID (required by Missive API)")
     .option("--add <ids...>", "Shared label IDs to add")
     .option("--remove <ids...>", "Shared label IDs to remove")
     .action(async (id: string, opts) => {
@@ -104,6 +105,7 @@ export function registerConversations(
         process.exit(1);
       }
       await getClient().performConversationAction(id, {
+        organization: opts.organization,
         add_shared_labels: opts.add,
         remove_shared_labels: opts.remove,
       });
