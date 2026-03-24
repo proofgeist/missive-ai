@@ -24,6 +24,20 @@ function err(e: unknown): { content: Array<{ type: "text"; text: string }>; isEr
   return { content: [{ type: "text" as const, text: String(e) }], isError: true };
 }
 
+// --- Organization resolution ---
+
+let cachedOrgId: string | undefined;
+
+async function resolveOrgId(explicit?: string): Promise<string> {
+  if (explicit) return explicit;
+  if (cachedOrgId) return cachedOrgId;
+  const { organizations } = await client.listOrganizations();
+  if (organizations.length === 0) throw new Error("No organizations found");
+  if (organizations.length > 1) throw new Error("Multiple organizations found — provide organization ID explicitly");
+  cachedOrgId = organizations[0].id;
+  return cachedOrgId;
+}
+
 // --- Server ---
 
 const server = new McpServer({
@@ -121,13 +135,14 @@ server.registerTool("assign_conversation", {
   inputSchema: {
     id: z.string().describe("Conversation ID"),
     users: z.array(z.string()).describe("User IDs to assign"),
-    organization: z.string().describe("Organization ID (required by Missive API)"),
+    organization: z.string().optional().describe("Organization ID (auto-resolved if omitted)"),
   },
 }, async ({ id, users, organization }) => {
   try {
+    const orgId = await resolveOrgId(organization);
     return ok(await client.performConversationAction(id, {
       add_assignees: users,
-      organization,
+      organization: orgId,
     }));
   } catch (e) { return err(e); }
 });
@@ -137,14 +152,15 @@ server.registerTool("label_conversation", {
   description: "Add or remove shared labels on a conversation.",
   inputSchema: {
     id: z.string().describe("Conversation ID"),
-    organization: z.string().describe("Organization ID (required by Missive API)"),
+    organization: z.string().optional().describe("Organization ID (auto-resolved if omitted)"),
     add: z.array(z.string()).optional().describe("Shared label IDs to add"),
     remove: z.array(z.string()).optional().describe("Shared label IDs to remove"),
   },
 }, async ({ id, organization, add, remove }) => {
   try {
+    const orgId = await resolveOrgId(organization);
     return ok(await client.performConversationAction(id, {
-      organization,
+      organization: orgId,
       add_shared_labels: add,
       remove_shared_labels: remove,
     }));

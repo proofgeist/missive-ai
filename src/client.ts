@@ -9,6 +9,7 @@ import type {
   ContactBook,
   CreateContactParams,
   UpdateContactParams,
+  Organization,
 } from "./types.js";
 
 export class MissiveApiError extends Error {
@@ -208,6 +209,12 @@ export class MissiveClient {
         infos: params.infos,
       },
     });
+  }
+
+  // --- Organizations ---
+
+  async listOrganizations(): Promise<{ organizations: Organization[] }> {
+    return this.request("GET", "/organizations");
   }
 
   // --- Contact Books ---
