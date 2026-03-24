@@ -353,12 +353,16 @@ describe("MissiveClient", () => {
       expect(body.posts.add_to_inbox).toBe(true);
     });
 
-    it("calls POST /posts with add_shared_labels", async () => {
+    it("calls POST /posts with add_shared_labels and organization", async () => {
       const fetch = mockFetch({ posts: { id: "p-1" } });
       vi.stubGlobal("fetch", fetch);
-      await client.performConversationAction("conv-1", { add_shared_labels: ["label-1"] });
+      await client.performConversationAction("conv-1", {
+        add_shared_labels: ["label-1"],
+        organization: "org-1",
+      });
       const body = JSON.parse(fetch.mock.calls[0][1].body as string);
       expect(body.posts.add_shared_labels).toEqual(["label-1"]);
+      expect(body.posts.organization).toBe("org-1");
     });
 
     it("calls POST /posts with add_assignees and organization", async () => {

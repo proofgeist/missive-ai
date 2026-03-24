@@ -24,7 +24,7 @@ export function writeConfig(config: Config): void {
 }
 
 export function resolveToken(cliToken?: string): string {
-  const token = cliToken || process.env.MISSIVE_API_TOKEN || readConfig().token;
+  const token = cliToken || process.env.MISSIVE_API_TOKEN || process.env.MISSIVE_API_KEY || readConfig().token;
   if (!token) {
     console.error(
       "No Missive API token found. Set MISSIVE_API_TOKEN env var, use --token flag, or run: missive config set-token <token>"
