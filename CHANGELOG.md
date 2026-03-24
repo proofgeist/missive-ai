@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/proofgeist/missive-ai/compare/v0.4.0...v0.4.1) (2026-03-24)
+
+
+### Bug Fixes
+
+* MCP server token resolution and MISSIVE_API_KEY alias ([#1](https://github.com/proofgeist/missive-ai/issues/1)) ([3f19757](https://github.com/proofgeist/missive-ai/commit/3f197572e2e50512365534f70f4d4cc1d8ab862f))
+
 # [0.4.0](https://github.com/proofgeist/missive-ai/compare/v0.3.0...v0.4.0) (2026-02-28)
 
 
